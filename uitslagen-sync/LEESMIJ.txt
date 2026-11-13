@@ -1,0 +1,40 @@
+UITSLAGEN-SYNC - UITSLAGEN UIT MIJNKNLTB OP DE WEBSITE ZETTEN
+=============================================================
+
+EENMALIG INSTALLEREN
+--------------------
+1. Dubbelklik op INSTALLEER.bat (heeft internet nodig, duurt een paar minuten).
+2. Open instellingen.json met Kladblok en vul in:
+     "naam":       naam van het toernooi
+     "toernooiUrl": de link naar het toernooi in MijnKNLTB
+                    (bijv. https://mijnknltb.toernooi.nl/tournament/xxxxxxxx-xxxx-...)
+     "repo":       jouw GitHub-repository, bijv. "tvvoorbeeld/clubtoernooi"
+     "token":      de GitHub-sleutel (zie hieronder)
+   Laat je "repo" en "token" leeg, dan draait de sync in TESTSTAND: de uitslagen
+   komen dan alleen in wedstrijden.csv op deze computer, niet op de website.
+
+GITHUB-SLEUTEL MAKEN
+--------------------
+1. Ga naar https://github.com/settings/personal-access-tokens/new
+2. Token name: uitslagen-sync    Expiration: tot een paar dagen na het toernooi
+3. Repository access: "Only select repositories" > kies je toernooi-repository
+4. Permissions > Repository permissions > Contents: "Read and write"
+5. Generate token, kopieer hem en plak hem in instellingen.json bij "token".
+
+Let op: met deze sleutel kan iemand je website aanpassen. Deel instellingen.json
+niet en zet hem nooit op GitHub.
+
+ELKE TOERNOOIDAG (voor de wedstrijdleiding)
+-------------------------------------------
+1. Dubbelklik op START.bat
+2. Er gaan twee vensters open: een zwart venster (het programma) en Edge met MijnKNLTB.
+3. Alleen de eerste keer: accepteer de cookies en log in op MijnKNLTB.
+4. Laat beide vensters open staan (klein maken mag). Voer de uitslagen gewoon in
+   Tournament Planner in, zoals altijd. Elke 6 minuten komen ze op de website.
+
+De laptop moet aan blijven staan en internet hebben. Zet de slaapstand uit.
+Laat de sync maar op EEN computer tegelijk draaien.
+Gaat er iets mis? Sluit beide vensters en start START.bat opnieuw.
+
+Deze map doorgeven aan iemand anders? Verwijder dan eerst de map "profiel"
+(daarin staat jouw MijnKNLTB-login) en de sleutel in instellingen.json.

@@ -1,0 +1,6 @@
+# Alleen de website wordt gepubliceerd; de sync bevat de GitHub-sleutel en het browserprofiel
+uitslagen-sync/instellingen.json
+uitslagen-sync/profiel/
+uitslagen-sync/node.exe
+uitslagen-sync/node/
+uitslagen-sync/node_modules/
