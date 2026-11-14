@@ -9,9 +9,12 @@
   :root {
     --bg: #0d1420; --panel: #172233; --panel-alt: #1c2a3e; --line: #3a4d63;
     --chalk: #f1eee6; --muted: #8fa1b3; --club: #2850a0; --club-licht: #6ea0e0; --club-donker: #1d3d7c; --ball: var(--club); --ball-light: var(--club-licht);
-    --accent: #e3b54d; --accent-donker: #8a6a22; --gold: var(--accent); --gold-dark: var(--accent-donker); --live: #3fbf6f;
+    --accent: #e3b54d; --accent-donker: #8a6a22; --live: #3fbf6f;
+    /* Gewone dagen: accenten in de clubkleur. Finaledagen (class "finale-stijl"): goud/accentkleur */
+    --gold: var(--club-licht); --gold-dark: var(--line); --finale-tint: var(--panel-alt);
     --gat: 3.2vw;   /* ruimte tussen de rondes, waarin de lijnen lopen */
   }
+  html.finale-stijl { --gold: var(--accent); --gold-dark: var(--accent-donker); --finale-tint: #2a2615; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; color: var(--chalk); overflow: hidden;
     font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
@@ -77,8 +80,8 @@
   .schema.drie .kaart { font-size: 2.2vh; }   /* drie rondes naast elkaar: iets kleiner, zodat namen passen */
   .kaart.gespeeld { border-left-color: var(--ball-light); }
   .kaart.bezig { border-left-color: var(--live); background: #19362a; }
-  .kaart.finale { border: .3vh solid var(--gold); border-left-width: .8vh; background: linear-gradient(135deg, #2a2615, var(--panel) 70%); }
-  .kaart.finale.bezig { background: linear-gradient(135deg, #2a2615, #19362a 70%); }
+  .kaart.finale { border: .3vh solid var(--gold); border-left-width: .8vh; background: linear-gradient(135deg, var(--finale-tint), var(--panel) 70%); }
+  .kaart.finale.bezig { background: linear-gradient(135deg, var(--finale-tint), #19362a 70%); }
   .kaart.open { background: transparent; border: .25vh dashed var(--line); box-shadow: none; }
   .kaart.open.finale { border-color: var(--gold-dark); }
   .kmeta { display: flex; gap: .8vw; align-items: center; font-size: .72em; color: var(--muted); margin-bottom: .3vh; white-space: nowrap; }
@@ -151,8 +154,8 @@
 </footer>
 <div class="vol-hint" id="volHint" hidden><span>Klik om schermvullend te tonen</span></div>
 
-<script src="config.js?v=1"></script>
-<script src="huisstijl.js?v=1"></script>
+<script src="config.js?v=2"></script>
+<script src="huisstijl.js?v=2"></script>
 <script src="data.js?v=1"></script>
 <script>
 /* Finaleweekend: per onderdeel een schema van kwartfinales, halve finales en finale.
@@ -413,6 +416,7 @@ async function laad() {
   try {
     const { wedstrijden, bijgewerkt } = await laadWedstrijden(CSV_URL);
     const schemas = bouwSchemas(wedstrijden);
+    pasFinaleStijlToe(finaleStijlActief(wedstrijden));   // goud alleen op de finaledagen (zie config.js)
     // Poulewedstrijden (alles wat geen kwartfinale, halve finale of finale is) van vandaag
     const dag = params.get("datum") || vandaag();
     let poule = wedstrijden.filter(w => w.datum === dag && !RONDES.some(r => r.test(w.ronde)))

@@ -50,3 +50,31 @@ function baanKolommen() {
   const helft = Math.ceil(n / 2);
   return { links: alle.slice(0, helft), rechts: alle.slice(helft), alle };
 }
+
+// Finalestijl (goud) op het tv-scherm. Instelling FINALE_STIJL in config.js:
+//   "auto" = alleen op de laatste 2 dagen van het toernooi, "aan" = altijd, "uit" = nooit.
+// Om te bekijken kan het ook in het adres: scherm.html?finale=aan (of =uit).
+function finaleStijlActief(wedstrijden) {
+  const C = window.TOERNOOI || {};
+  const keuze = (new URLSearchParams(location.search).get("finale") || C.FINALE_STIJL || "auto").toLowerCase();
+  if (keuze === "aan") return true;
+  if (keuze === "uit") return false;
+  // Laatste toernooidag: LAATSTE_DAG uit config.js, anders de laatste dag in het programma.
+  // Finalestijl vanaf de dag ervoor.
+  const datums = /^\d{2}-\d{2}-\d{4}$/.test(C.LAATSTE_DAG || "") ? [C.LAATSTE_DAG] : wedstrijden.map(w => w.datum);
+  const sleutels = datums.map(d => /^(\d{2})-(\d{2})-(\d{4})$/.exec(d || "")).filter(Boolean)
+    .map(m => new Date(+m[3], m[2] - 1, +m[1]).getTime());
+  if (!sleutels.length) return false;
+  const vanaf = new Date(Math.max(...sleutels)); vanaf.setDate(vanaf.getDate() - 1);
+  const nu = new Date(); nu.setHours(0, 0, 0, 0);
+  return nu >= vanaf;
+}
+
+function pasFinaleStijlToe(aan) {
+  const C = window.TOERNOOI || {};
+  document.documentElement.classList.toggle("finale-stijl", aan);
+  // Ondertitel: op finaledagen "Finaleweekend", anders de clubnaam
+  document.querySelectorAll('[data-tekst="scherm-titel"]').forEach(el => {
+    el.textContent = aan ? (C.SCHERM_TITEL || "🏆 Finaleweekend") : (C.CLUB || "");
+  });
+}

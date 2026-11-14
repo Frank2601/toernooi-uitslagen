@@ -16,7 +16,15 @@ window.TOERNOOI = {
   KLEUR: "#2850a0",
   ACCENT: "#e3b54d",
 
-  // Ondertitel op het tv-scherm met het finaleschema (scherm.html)
+  // Gouden finalestijl op het tv-scherm (scherm.html): randen, titels en ondertitel in goud/ACCENT.
+  //   "auto" = alleen op de laatste 2 dagen van het toernooi, "aan" = altijd, "uit" = nooit
+  FINALE_STIJL: "auto",
+
+  // Laatste dag van het toernooi (dd-mm-jjjj), voor FINALE_STIJL "auto".
+  // Leeg = de laatste dag die in het programma staat.
+  LAATSTE_DAG: "",
+
+  // Ondertitel op het tv-scherm tijdens de finaledagen (op andere dagen staat daar de clubnaam)
   SCHERM_TITEL: "🏆 Finaleweekend",
 
   // Aantal banen. Op het tv-scherm staat de eerste helft links, de tweede helft rechts.
