@@ -7,7 +7,7 @@ Een eigen website voor je tennistoernooi, met het programma en de uitslagen. Er 
 | Pagina | Waarvoor |
 |---|---|
 | `index.html` | Voor bezoekers op telefoon en computer. Ze zien het programma en de uitslagen per dag en kunnen zoeken op naam. |
-| `scherm.html` | Voor de tv in de kantine. Toont de poulewedstrijden van vandaag en de finaleschema's (kwartfinale, halve finale en finale), met welke banen bezet en vrij zijn. Op de laatste 2 dagen krijgt het scherm een gouden finalestijl. |
+| `scherm.html` | Voor de tv in de kantine. Toont de poulewedstrijden van vandaag en de finaleschema's (kwartfinale, halve finale en finale), met welke banen bezet en vrij zijn. Op de laatste 2 dagen krijgt het scherm een gouden finalestijl. Op de finaledag staan alleen de finales groot in beeld, met de halve finales klein ervoor. |
 | `scherm-dag.html` | Voor de tv in de kantine. Toont alle wedstrijden van vandaag in één lijst, met welke banen bezet en vrij zijn. |
 
 Het voorbeeld in deze repository gebruikt verzonnen namen.
@@ -51,6 +51,7 @@ Je ziet nu de voorbeeldsite met verzonnen wedstrijden.
 | `KLEUR` | Hoofdkleur van je club (kopbalk, knoppen) | `"#c0392b"` |
 | `ACCENT` | Kleur voor de finaledagen op het tv-scherm | `"#e3b54d"` (goud) |
 | `FINALE_STIJL` | Wanneer het tv-scherm de finalestijl krijgt: `"auto"` op de laatste 2 dagen, `"aan"` altijd, `"uit"` nooit | `"auto"` |
+| `FINALEDAG_SCHERM` | Op de laatste dag toont het tv-scherm alleen de finales, groot, met de halve finales klein ervoor: `"auto"` op de laatste dag, `"aan"` altijd, `"uit"` nooit | `"auto"` |
 | `LAATSTE_DAG` | Laatste dag van het toernooi. Vul dit in voor de juiste finaledagen. | `"15-11-2027"` |
 | `SCHERM_TITEL` | Ondertitel op de tv tijdens de finaledagen | `"🏆 Finaleweekend"` |
 | `BANEN` | Aantal banen van je club | `6` |
@@ -96,6 +97,7 @@ Handige toevoegingen aan het adres:
 |---|---|
 | `?sec=30` | Elke pagina 30 seconden tonen (standaard 20) |
 | `?finale=aan` of `?finale=uit` | De finalestijl even aan- of uitzetten, om te bekijken hoe het eruitziet |
+| `?finaledag=aan` of `?finaledag=uit` | De finaledag-weergave (alleen finales) even aan- of uitzetten, om te bekijken hoe het eruitziet |
 | `?demo` | Een voorbeeld met verzonnen uitslagen, om te zien hoe het finaleweekend eruitziet |
 | `scherm-dag.html?rijen=8` | Aantal wedstrijden per pagina op het dagoverzicht |
 

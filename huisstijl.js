@@ -78,3 +78,19 @@ function pasFinaleStijlToe(aan) {
     el.textContent = aan ? (C.SCHERM_TITEL || "🏆 Finaleweekend") : (C.CLUB || "");
   });
 }
+
+// Finaledag-weergave op het tv-scherm: per onderdeel de halve finales klein met de finale groot erachter.
+// Instelling FINALEDAG_SCHERM in config.js: "auto" = alleen op de laatste toernooidag, "aan" = altijd, "uit" = nooit.
+// Om te bekijken kan het ook in het adres: scherm.html?finaledag=aan (of =uit).
+function finaledagActief(wedstrijden) {
+  const C = window.TOERNOOI || {};
+  const keuze = (new URLSearchParams(location.search).get("finaledag") || C.FINALEDAG_SCHERM || "auto").toLowerCase();
+  if (keuze === "aan") return true;
+  if (keuze === "uit") return false;
+  const datums = /^\d{2}-\d{2}-\d{4}$/.test(C.LAATSTE_DAG || "") ? [C.LAATSTE_DAG] : wedstrijden.map(w => w.datum);
+  const sleutels = datums.map(d => /^(\d{2})-(\d{2})-(\d{4})$/.exec(d || "")).filter(Boolean)
+    .map(m => new Date(+m[3], m[2] - 1, +m[1]).getTime());
+  if (!sleutels.length) return false;
+  const nu = new Date(); nu.setHours(0, 0, 0, 0);
+  return nu.getTime() >= Math.max(...sleutels);
+}

@@ -20,7 +20,11 @@ window.TOERNOOI = {
   //   "auto" = alleen op de laatste 2 dagen van het toernooi, "aan" = altijd, "uit" = nooit
   FINALE_STIJL: "auto",
 
-  // Laatste dag van het toernooi (dd-mm-jjjj), voor FINALE_STIJL "auto".
+  // Tv-scherm op de finaledag: per onderdeel de halve finales klein met de finale groot erachter.
+  //   "auto" = alleen op de laatste toernooidag, "aan" = altijd, "uit" = nooit (dan de gewone schema's)
+  FINALEDAG_SCHERM: "auto",
+
+  // Laatste dag van het toernooi (dd-mm-jjjj), voor FINALE_STIJL en FINALEDAG_SCHERM "auto".
   // Leeg = de laatste dag die in het programma staat.
   LAATSTE_DAG: "",
 

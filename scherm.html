@@ -135,6 +135,32 @@
   .vol-hint span { background: var(--ball); color: var(--chalk); font-size: 3.4vh; font-weight: 600;
     padding: 2vh 3vw; border-radius: 1vh; border: .3vh solid var(--gold); }
   .vol-hint[hidden] { display: none; }
+
+  /* Finaledag: per onderdeel de halve finales klein met de finale groot erachter, twee kolommen */
+  .finales-pagina { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .finales { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 1.6vh 2vw; min-height: 0; }
+  .fvak { display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+  .fkop { display: flex; align-items: baseline; gap: .8vw; margin-bottom: .4vh; white-space: nowrap; overflow: hidden; }
+  .fkop h2 { font-size: 2.6vh; color: var(--gold); letter-spacing: .04em; }
+  .fkop span { font-size: 1.6vh; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+  .fbody { flex: 1; display: grid; grid-template-columns: 1fr; min-height: 0; }
+  .fbody.met-hf { grid-template-columns: 31% 1fr; column-gap: 2vw; }
+  .fvak .teams .naam { white-space: normal; overflow: visible; text-overflow: clip; }
+  .fkol { position: relative; display: flex; align-items: center; min-height: 0; }
+  .fkol .kaart { font-size: 2.6vh; padding: 1vh 1.1vw; }
+  .met-hf .fkol::before { content: ""; position: absolute; right: 100%; top: 50%; width: 1vw; border-top: .25vh solid var(--gold-dark); }
+  /* Dun lijntje tussen de twee teams in de finale */
+  .fkol .teams { column-gap: 0; align-items: center; }
+  .fkol .teams::before { content: ""; grid-row: 1; grid-column: 1 / -1; align-self: stretch;
+    border-bottom: 1px solid rgba(241, 238, 230, .22); pointer-events: none; }
+  .fkol .teams > [style^="grid-row:1"] { padding-bottom: .25em; align-self: stretch; display: flex; align-items: center; }
+  .fkol .teams > [style^="grid-row:2"] { padding-top: .25em; align-self: stretch; display: flex; align-items: center; }
+  .fkol .teams .set { justify-content: center; }
+  .hfkol { position: relative; display: flex; flex-direction: column; justify-content: space-around; gap: .6vh; min-height: 0; }
+  .hfkol::after { content: ""; position: absolute; left: 100%; top: 25%; bottom: 25%; width: 1vw;
+    border: .25vh solid var(--line); border-left: none; }
+  .hfkol .kaart { font-size: 1.3vh; padding: .4vh .5vw; opacity: .9; border-left-width: .4vh; box-shadow: none; }
+  .hfkol .kaart .kmeta { margin-bottom: .1vh; }
 </style>
 </head>
 <body>
@@ -154,8 +180,8 @@
 </footer>
 <div class="vol-hint" id="volHint" hidden><span>Klik om schermvullend te tonen</span></div>
 
-<script src="config.js?v=2"></script>
-<script src="huisstijl.js?v=2"></script>
+<script src="config.js?v=3"></script>
+<script src="huisstijl.js?v=3"></script>
 <script src="data.js?v=1"></script>
 <script>
 /* Finaleweekend: per onderdeel een schema van kwartfinales, halve finales en finale.
@@ -359,6 +385,24 @@ function toonBezig() {
   vak.hidden = false;
 }
 
+// Finaledag-pagina: per onderdeel de halve finales (klein) met daarachter de finale; twee kolommen naast elkaar
+const FINALES_PER_PAGINA = Number(params.get("per")) || 6;
+function finalesHTML(p) {
+  const kaarten = p.finales.map(w => {
+    const hf = (w.halve || []).filter(Boolean);
+    return `<div class="fvak">
+      <div class="fkop"><h2>${esc(w.onderdeel)}</h2><span>${esc(omschrijving(w.onderdeel))}</span></div>
+      <div class="fbody${hf.length ? " met-hf" : ""}">
+        ${hf.length ? `<div class="hfkol">${hf.map(h => kaartHTML(h, false)).join("")}</div>` : ""}
+        <div class="fkol">${kaartHTML(w, true)}</div>
+      </div>
+    </div>`;
+  }).join("");
+  return `<section class="finales-pagina">
+    <div class="finales" style="grid-template-rows:repeat(${p.rijen || Math.ceil(FINALES_PER_PAGINA / 2)}, 1fr)">${kaarten}</div>
+  </section>`;
+}
+
 function toon(nieuwePagina = false) {
   const main = document.getElementById("inhoud");
   const voortgang = document.getElementById("voortgang");
@@ -377,7 +421,7 @@ function toon(nieuwePagina = false) {
   if (!p.poule) bezigNu = [];
   toonBezig();
   bezigNu = bewaar;
-  main.innerHTML = p.poule ? pouleHTML(p) : p.map(schemaHTML).join("");
+  main.innerHTML = p.finales ? finalesHTML(p) : p.poule ? pouleHTML(p) : p.map(schemaHTML).join("");
   document.getElementById("pagina").textContent = paginas.length > 1 ? `Pagina ${pagina + 1} / ${paginas.length}` : "";
   voortgang.hidden = paginas.length < 2;
   if (nieuwePagina && paginas.length > 1) {
@@ -431,6 +475,16 @@ async function laad() {
     // Het bezig-blok hoort bij de poulepagina; op een dag zonder poulewedstrijden is er geen bezig-blok
     paginas = maakPaginas(alle, poule.filter(w => w.status !== "bezig"), poule.length > 0 && bezigNu.length > 0);
     paginas.forEach(p => { if (p.poule) p.dag = dag; });
+    // Finaledag (zie config.js): alleen de finales, met de halve finales klein ervoor
+    const finales = alle.flatMap(s => (s.kolommen.f || []).filter(w => w && !w.open)
+        .map(w => ({ ...w, onderdeel: s.ond, halve: s.kolommen.hf })))
+      .sort((a, b) => datumSleutel(a.datum || "").localeCompare(datumSleutel(b.datum || "")) || tijdSleutel(a.tijd) - tijdSleutel(b.tijd));
+    if (finaledagActief(wedstrijden) && finales.length) {
+      bezigNu = [];
+      paginas = [];
+      for (let i = 0; i < finales.length; i += FINALES_PER_PAGINA)
+        paginas.push({ finales: finales.slice(i, i + FINALES_PER_PAGINA), rijen: Math.ceil(Math.min(finales.length, FINALES_PER_PAGINA) / 2) });
+    }
     fout = false;
     laatsteOk = bijgewerkt;
     status.className = "";
