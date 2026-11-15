@@ -12,6 +12,10 @@ Een eigen website voor je tennistoernooi, met het programma en de uitslagen. Er 
 
 Het voorbeeld in deze repository gebruikt verzonnen namen.
 
+> **Waar komt dit vandaan?**
+> Deze site is gemaakt voor het Nick Fleuren Open van TeVeR Rijkevoort (november 2026) en tijdens dat toernooi in de praktijk gebruikt en getest. Dat was een toernooi op **4 banen**, met poules, kwartfinales, halve finales en finales, en een tv in de kantine.
+> Het aantal banen is in te stellen (`BANEN` in config.js). Een club met meer banen of een andere opzet kan het dus ook gebruiken, maar test het dan eerst even met je eigen toernooi. Dat kan met de teststand van de sync, zonder dat er iets online komt (zie stap 4).
+
 **Wat je nodig hebt**
 
 - Een gratis account op [github.com](https://github.com).
