@@ -111,8 +111,38 @@ Wil je meerdere opties tegelijk, zet dan `&` ertussen, bijvoorbeeld `scherm.html
 
 ## Goed om te weten
 
-- **Privacy:** de site toont de namen en uitslagen zoals ze in MijnKNLTB staan. Wil iemand er niet op? Geef die persoon via `NAMEN` in config.js een andere naam.
+- **Privacy:** de site toont namen en uitslagen. Lees hieronder [Privacy en AVG](#privacy-en-avg).
 - **Bewaar de GitHub-sleutel goed.** Wie de sleutel heeft, kan je website aanpassen. Zet `instellingen.json` nooit op GitHub en deel hem niet. Laat de sleutel kort na het toernooi verlopen.
 - **Laat de sync maar op één laptop tegelijk draaien.**
 - **De sync stopt?** Sluit beide vensters en dubbelklik opnieuw op START.bat.
-- **Na het toernooi** blijft de site gewoon staan met alle uitslagen. Voor een volgend toernooi maak je een nieuwe kopie (stap 1), of je past `NAAM` aan en laat de sync een nieuw toernooi ophalen.
+- **Na het toernooi** blijft de site gewoon staan met alle uitslagen. Voor een volgend toernooi maak je een nieuwe kopie (stap 1), of je past `NAAM` aan en laat de sync een nieuw toernooi ophalen. Denk aan het opruimen van oude gegevens (zie hieronder).
+
+---
+
+## Privacy en AVG
+
+Op de site en het tv-scherm staan **namen van spelers met hun uitslagen**. Dat zijn persoonsgegevens. **De vereniging die de site gebruikt is daarvoor zelf verantwoordelijk** (in AVG-termen de "verwerkingsverantwoordelijke"). Dit zijn praktische tips, geen juridisch advies. Twijfel je, vraag het dan na bij je bestuur of de privacyfunctionaris van je vereniging.
+
+1. **Informeer de spelers.** Zet bij de inschrijving of in het toernooireglement dat namen en uitslagen op de toernooisite en het tv-scherm in de kantine komen.
+2. **Maak bezwaar makkelijk.** Wil iemand niet met naam op de site, vervang die naam dan via `NAMEN` in config.js, bijvoorbeeld `"Jan Jansen": "Speler A"`.
+3. **Jeugdtoernooien:** wees extra voorzichtig. Vraag vooraf toestemming aan de ouders, of toon alleen voornamen.
+4. **Niet in zoekmachines.** De pagina's vragen zoekmachines om de site niet op te nemen, zodat spelers niet via Google op naam te vinden zijn. Haal die regel (`<meta name="robots" …>`) niet weg.
+5. **Bewaar niet langer dan nodig.** Haal de gegevens een tijd na het toernooi weg. Zet *Settings → Pages* uit, verwijder de repository, of maak `wedstrijden.csv` leeg (alleen de eerste regel laten staan).
+6. **Waar staan de gegevens?** De site draait op GitHub Pages (onderdeel van Microsoft). De gegevens staan dus op servers van GitHub, niet bij de vereniging. Iedereen met de link kan de site bekijken.
+7. **Alleen wat nodig is.** De sync neemt alleen over wat ook in het openbare programma van MijnKNLTB staat: namen, onderdeel, tijden, banen en uitslagen. Geen contactgegevens of andere persoonsgegevens.
+
+---
+
+## Geen garantie, geen aansprakelijkheid
+
+Dit sjabloon wordt **gratis en "zoals het is"** aangeboden, als hulpmiddel van de ene vereniging voor de andere. Het is met zorg gemaakt en in de praktijk getest, maar er is **geen garantie** dat alles altijd goed werkt of dat de getoonde uitslagen en tijden kloppen.
+
+**De maker is niet aansprakelijk** voor schade of problemen die ontstaan door het gebruik van dit sjabloon, bijvoorbeeld:
+- verkeerde of ontbrekende uitslagen of tijden;
+- een site of scherm dat het (tijdelijk) niet doet;
+- privacy- of AVG-kwesties;
+- het gebruik van GitHub, MijnKNLTB of de GitHub-sleutel.
+
+Elke vereniging die het sjabloon gebruikt, doet dat **op eigen verantwoordelijkheid**. Het officiële programma en de officiële uitslagen staan altijd in MijnKNLTB en bij de wedstrijdleiding.
+
+Er is geen ondersteuning of helpdesk. Vragen of verbeteringen zijn welkom via *Issues* op GitHub, maar er is geen garantie op antwoord.
